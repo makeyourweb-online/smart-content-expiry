@@ -19,63 +19,63 @@ add_action('plugins_loaded', function () {
 // Register meta boxes for expiry settings in post editor
 add_action('add_meta_boxes', function () {
     add_meta_box(
-        'sce_expiry_meta',
+        'smcoex_mywexpiry_meta',
         __('Content Expiry Settings', 'smart-content-expiry'),
-        'sce_render_meta_box',
+        'smcoex_mywrender_meta_box',
         ['post', 'page'],
         'side'
     );
 });
 
-function sce_render_meta_box($post)
+function smcoex_mywrender_meta_box($post)
 {
-    wp_nonce_field('sce_save_meta_box', 'sce_meta_box_nonce');
+    wp_nonce_field('smcoex_mywsave_meta_box', 'smcoex_mywmeta_box_nonce');
 
-    $expiry_date = get_post_meta($post->ID, '_sce_expiry_date', true);
-    $expiry_action = get_post_meta($post->ID, '_sce_expiry_action', true);
-    $expiry_message = get_post_meta($post->ID, '_sce_expiry_message', true);
-    $expiry_redirect = get_post_meta($post->ID, '_sce_expiry_redirect', true);
+    $expiry_date = get_post_meta($post->ID, '_smcoex_mywexpiry_date', true);
+    $expiry_action = get_post_meta($post->ID, '_smcoex_mywexpiry_action', true);
+    $expiry_message = get_post_meta($post->ID, '_smcoex_mywexpiry_message', true);
+    $expiry_redirect = get_post_meta($post->ID, '_smcoex_mywexpiry_redirect', true);
 
-    echo '<p><label for="sce_expiry_date">' . __('Expiry Date/Time:', 'smart-content-expiry') . '</label><br />';
-    echo '<input type="datetime-local" name="sce_expiry_date" value="' . esc_attr($expiry_date) . '" class="widefat" /></p>';
+    echo '<p><label for="smcoex_mywexpiry_date">' . __('Expiry Date/Time:', 'smart-content-expiry') . '</label><br />';
+    echo '<input type="datetime-local" name="smcoex_mywexpiry_date" value="' . esc_attr($expiry_date) . '" class="widefat" /></p>';
 
-    echo '<p><label for="sce_expiry_action">' . __('Action After Expiry:', 'smart-content-expiry') . '</label><br />';
-    echo '<select name="sce_expiry_action" class="widefat">';
+    echo '<p><label for="smcoex_mywexpiry_action">' . __('Action After Expiry:', 'smart-content-expiry') . '</label><br />';
+    echo '<select name="smcoex_mywexpiry_action" class="widefat">';
     echo '<option value="hide"' . selected($expiry_action, 'hide', false) . '>' . __('Hide content', 'smart-content-expiry') . '</option>';
     echo '<option value="replace"' . selected($expiry_action, 'replace', false) . '>' . __('Replace with message', 'smart-content-expiry') . '</option>';
     echo '<option value="redirect"' . selected($expiry_action, 'redirect', false) . '>' . __('Redirect to URL', 'smart-content-expiry') . '</option>';
     echo '</select></p>';
 
-    echo '<p><label for="sce_expiry_message">' . __('Expiry Message (if replacing):', 'smart-content-expiry') . '</label><br />';
-    echo '<textarea name="sce_expiry_message" class="widefat">' . esc_textarea($expiry_message) . '</textarea></p>';
+    echo '<p><label for="smcoex_mywexpiry_message">' . __('Expiry Message (if replacing):', 'smart-content-expiry') . '</label><br />';
+    echo '<textarea name="smcoex_mywexpiry_message" class="widefat">' . esc_textarea($expiry_message) . '</textarea></p>';
 
-    echo '<p><label for="sce_expiry_redirect">' . __('Redirect URL (if redirecting):', 'smart-content-expiry') . '</label><br />';
-    echo '<input type="url" name="sce_expiry_redirect" value="' . esc_attr($expiry_redirect) . '" class="widefat" /></p>';
+    echo '<p><label for="smcoex_mywexpiry_redirect">' . __('Redirect URL (if redirecting):', 'smart-content-expiry') . '</label><br />';
+    echo '<input type="url" name="smcoex_mywexpiry_redirect" value="' . esc_attr($expiry_redirect) . '" class="widefat" /></p>';
 }
 
 add_action('save_post', function ($post_id) {
-    if (!isset($_POST['sce_meta_box_nonce']) || !wp_verify_nonce($_POST['sce_meta_box_nonce'], 'sce_save_meta_box')) return;
+    if (!isset($_POST['smcoex_mywmeta_box_nonce']) || !wp_verify_nonce($_POST['smcoex_mywmeta_box_nonce'], 'smcoex_mywsave_meta_box')) return;
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
 
-    update_post_meta($post_id, '_sce_expiry_date', sanitize_text_field($_POST['sce_expiry_date'] ?? ''));
-    update_post_meta($post_id, '_sce_expiry_action', sanitize_text_field($_POST['sce_expiry_action'] ?? ''));
-    update_post_meta($post_id, '_sce_expiry_message', sanitize_textarea_field($_POST['sce_expiry_message'] ?? ''));
-    update_post_meta($post_id, '_sce_expiry_redirect', esc_url_raw($_POST['sce_expiry_redirect'] ?? ''));
+    update_post_meta($post_id, '_smcoex_mywexpiry_date', sanitize_text_field($_POST['smcoex_mywexpiry_date'] ?? ''));
+    update_post_meta($post_id, '_smcoex_mywexpiry_action', sanitize_text_field($_POST['smcoex_mywexpiry_action'] ?? ''));
+    update_post_meta($post_id, '_smcoex_mywexpiry_message', sanitize_textarea_field($_POST['smcoex_mywexpiry_message'] ?? ''));
+    update_post_meta($post_id, '_smcoex_mywexpiry_redirect', esc_url_raw($_POST['smcoex_mywexpiry_redirect'] ?? ''));
 });
 
 // Modify content on frontend
-add_filter('the_content', 'sce_filter_content');
-function sce_filter_content($content)
+add_filter('the_content', 'smcoex_mywfilter_content');
+function smcoex_mywfilter_content($content)
 {
     if (is_admin() || !is_singular()) return $content;
     global $post;
 
     if (!$post) return $content;
 
-    $expiry_date = get_post_meta($post->ID, '_sce_expiry_date', true);
-    $expiry_action = get_post_meta($post->ID, '_sce_expiry_action', true);
-    $expiry_message = get_post_meta($post->ID, '_sce_expiry_message', true);
-    $expiry_redirect = get_post_meta($post->ID, '_sce_expiry_redirect', true);
+    $expiry_date = get_post_meta($post->ID, '_smcoex_mywexpiry_date', true);
+    $expiry_action = get_post_meta($post->ID, '_smcoex_mywexpiry_action', true);
+    $expiry_message = get_post_meta($post->ID, '_smcoex_mywexpiry_message', true);
+    $expiry_redirect = get_post_meta($post->ID, '_smcoex_mywexpiry_redirect', true);
 
     if ($expiry_date && strtotime(current_time('mysql')) >= strtotime($expiry_date)) {
         switch ($expiry_action) {
@@ -126,11 +126,11 @@ add_action('admin_menu', function () {
         __('Expiring Content', 'smart-content-expiry'),
         'manage_options',
         'sce-expiring-content',
-        'sce_render_expiry_list_page'
+        'smcoex_mywrender_expiry_list_page'
     );
 });
 
-function sce_render_expiry_list_page()
+function smcoex_mywrender_expiry_list_page()
 {
     echo '<div class="wrap"><h1>' . __('Expiring Content', 'smart-content-expiry') . '</h1>';
 
@@ -139,7 +139,7 @@ function sce_render_expiry_list_page()
         'posts_per_page' => -1,
         'meta_query' => [
             [
-                'key' => '_sce_expiry_date',
+                'key' => '_smcoex_mywexpiry_date',
                 'compare' => '!=',
                 'value' => ''
             ]
@@ -155,7 +155,7 @@ function sce_render_expiry_list_page()
     echo '<table class="widefat"><thead><tr><th>' . __('Title', 'smart-content-expiry') . '</th><th>' . __('Expiry Date', 'smart-content-expiry') . '</th></tr></thead><tbody>';
 
     foreach ($posts as $post) {
-        $expiry = get_post_meta($post->ID, '_sce_expiry_date', true);
+        $expiry = get_post_meta($post->ID, '_smcoex_mywexpiry_date', true);
         echo '<tr><td><a href="' . get_edit_post_link($post->ID) . '">' . esc_html(get_the_title($post)) . '</a></td>';
         echo '<td>' . esc_html($expiry) . '</td></tr>';
     }

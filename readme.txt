@@ -1,10 +1,11 @@
 === Smart Content Expiry ===
-Contributors: makeyourweb  
+Contributors: makeyourwebonline
+Donate link: https://buymeacoffee.com/makeyourweb
 Tags: expire, content expiration, hide content, schedule content, shortcode, redirect, time-based content  
 Requires at least: 5.0  
-Tested up to: 6.5  
+Tested up to: 6.8 
 Requires PHP: 7.0  
-Stable tag: 1.1  
+Stable tag: 1.0.2
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -57,15 +58,15 @@ Go to **Tools > Expiring Content** in the admin area.
 
 == Changelog ==
 
-= 1.1 =
+= 1.0.2 =
 * Added admin page for expiring content  
 * Improved shortcode handling and admin interface  
 * Translations support
 
-= 1.0 =
+= 1.01. =
 * Initial release
 
 == Upgrade Notice ==
 
-= 1.1 =
+= 1.0.1 =
 Adds admin page to manage expiring content and supports shortcodes.
