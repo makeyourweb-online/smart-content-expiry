@@ -1,72 +1,79 @@
 === Smart Content Expiry ===
 Contributors: makeyourwebonline
 Donate link: https://buymeacoffee.com/makeyourweb
-Tags: expire, content expiration, hide content, schedule content, shortcode, redirect, time-based content  
-Requires at least: 5.0  
-Tested up to: 6.8 
-Requires PHP: 7.0  
-Stable tag: 1.0.2
-License: GPLv2 or later  
-License URI: https://www.gnu.org/licenses/gpl-2.0.html  
+Tags: content expiration, expire post, schedule removal, auto-hide, post expiration
+Requires at least: 5.0
+Tested up to: 6.8
+Stable tag: 1.0.3
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Schedule content expiration and decide what happens next: hide it, replace it with a message, or redirect users. Perfect for time-sensitive content.
+Expire posts and pages automatically. Hide, replace or redirect content after expiry — no cron jobs or deletions.
 
 == Description ==
 
-**Smart Content Expiry** allows you to set expiration dates for posts, pages, and inline content using a shortcode.  
-Once expired, the plugin can:
+**Smart Content Expiry** lets you automatically manage content lifecycle in WordPress.
 
-- Automatically hide the content  
-- Replace it with a custom message  
-- Redirect visitors to a different URL
+You can schedule an expiration date for any post or page and define what should happen when that date is reached:
 
-**Features:**
+* Hide the content entirely
+* Replace it with a custom message
+* Redirect the visitor to another page or website
 
-- Expire full posts and pages with a selected date and time  
-- Inline content expiration using `[smart_expire]` shortcode  
-- Admin page to list all expiring content  
-- Lightweight and easy to set up  
-- Ready for translations (internationalized)
+Ideal for:
+* Time-limited promotions and announcements
+* Expiring offers or seasonal content
+* Redirecting outdated pages to newer content
+* Ensuring stale information disappears automatically
 
-**Use cases:**  
-Promotions, announcements, event listings, limited-time offers, time-bound disclaimers, and more.
+Key features:
+* Set an expiration date/time directly in the post editor
+* Choose between hide / replace / redirect actions
+* Add a custom expiration message or redirect URL
+* Shortcode support: `[smart_expire expires="YYYY-MM-DD HH:MM"]...[/smart_expire]`
+* Admin page listing all expiring content (Tools → Expiring Content)
+
+No background processes or cron jobs — all logic runs when a visitor views a post.
 
 == Installation ==
 
-1. Upload the plugin folder to the `/wp-content/plugins/` directory.  
-2. Activate the plugin through the 'Plugins' menu in WordPress.  
-3. Edit a post or page to set an expiration date and choose an action.  
-4. Use the shortcode for inline control:  
-   `[smart_expire expires="YYYY-MM-DD HH:MM" action="replace" message="Expired!"]This content will disappear after the date[/smart_expire]`
+1. Upload the plugin folder to `/wp-content/plugins/`
+2. Activate the plugin through the "Plugins" menu
+3. Edit any post or page to set an expiry rule in the sidebar
 
 == Frequently Asked Questions ==
 
-= What happens when a post expires? =  
-Depending on your chosen action, the content is either hidden, replaced, or redirected.
+= Does this plugin delete posts after expiry? =
+No. It only hides, replaces, or redirects the content. Your posts remain in the database.
 
-= Can I use it in shortcodes? =  
-Yes! Use `[smart_expire]` with options like `expires`, `action`, `message`, and `redirect`.
+= Is there a shortcode to handle inline expiration? =
+Yes! Use `[smart_expire expires="2025-12-31 23:59" action="replace" message="This content has expired."]Hidden content[/smart_expire]`.
 
-= Where can I see a list of expiring posts? =  
-Go to **Tools > Expiring Content** in the admin area.
+= Can I bulk-set expiry for multiple posts? =
+Not yet — but it’s planned for a future PRO version. Right now, expiry must be set per-post.
 
 == Screenshots ==
 
-1. Meta box to configure expiry for posts/pages  
-2. Admin page listing expiring content  
-3. Example of inline content that disappears after a date  
+1. Post editor settings for expiry
+2. Admin listing of content with expiration dates
 
 == Changelog ==
 
-= 1.0.2 =
-* Added admin page for expiring content  
-* Improved shortcode handling and admin interface  
-* Translations support
+= 1.0.3 =
+* Fixed nonce validation and naming inconsistency
+* Added `wp_unslash()` before sanitizing user input (complies with WP Coding Standards)
+* Improved escaping in admin UI and frontend output
+* Optimized content listing query with `meta_key` and `posts_per_page` limit
+* Confirmed compatibility with WordPress 6.8
 
-= 1.01. =
-* Initial release
+= 1.0.2 =
+* Improved shortcode behavior with redirects
+* Minor UI text tweaks and translation support
+
+= 1.0.1 =
+* Initial public release
 
 == Upgrade Notice ==
 
-= 1.0.1 =
-Adds admin page to manage expiring content and supports shortcodes.
+= 1.0.3 =
+Security and performance improvements. Fixes input sanitization, optimizes expiry listings, and enhances WordPress Coding Standards compliance.
